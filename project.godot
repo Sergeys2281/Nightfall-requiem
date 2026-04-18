@@ -23,3 +23,8 @@ window/stretch/mode="canvas_items"
 [dotnet]
 
 project/assembly_name="Nightfall Requiem"
+
+[editor]
+
+version_control/plugin_name="GitPlugin"
+version_control/autoload_on_startup=true
