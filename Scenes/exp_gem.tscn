@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://desafy40whjw3"]
+
+[ext_resource type="Texture2D" uid="uid://buxb7sg622pry" path="res://Assets/Valley Ruin Asset Pack V0.3/Objects/Items.png" id="1_j05ow"]
+[ext_resource type="Script" uid="uid://ce7lo0h4xikw1" path="res://Scenes/ExpGem.cs" id="1_xpps1"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xpps1"]
+radius = 25.019993
+
+[node name="ExpGem" type="Area2D"]
+script = ExtResource("1_xpps1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.6, 0.6)
+texture = ExtResource("1_j05ow")
+region_enabled = true
+region_rect = Rect2(0, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_xpps1")

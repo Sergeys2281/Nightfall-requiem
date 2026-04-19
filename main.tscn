@@ -1,3 +1,48 @@
-[gd_scene format=3 uid="uid://c04u2twjcytmo"]
+[gd_scene load_steps=5 format=3 uid="uid://c04u2twjcytmo"]
 
-[node name="Main" type="Node2D"]
+[ext_resource type="PackedScene" uid="uid://c3p4uob7de67n" path="res://Scenes/level_forest.tscn" id="1_0xm2m"]
+[ext_resource type="PackedScene" uid="uid://b2h8s5fbi7qs5" path="res://Scenes/player.tscn" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://cgag2tbxq1otk" path="res://Scenes/GameManager.cs" id="2_h2yge"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
+bg_color = Color(1, 0, 0, 1)
+
+[node name="Main" type="Node"]
+
+[node name="LevelContainer" type="Node2D" parent="."]
+
+[node name="Level Forest" parent="LevelContainer" instance=ExtResource("1_0xm2m")]
+
+[node name="Player2" parent="LevelContainer/Level Forest" node_paths=PackedStringArray("HpBar") instance=ExtResource("2_1bvp3")]
+HpBar = NodePath("../../../UI/HpBar")
+
+[node name="UI" type="CanvasLayer" parent="."]
+
+[node name="ExpBar" type="ProgressBar" parent="UI"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -27.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="HpBar" type="ProgressBar" parent="UI"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -30.0
+offset_top = 30.0
+offset_right = 32.0
+offset_bottom = 35.75
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/fill = SubResource("StyleBoxFlat_h2yge")
+fill_mode = 1
+show_percentage = false
+
+[node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("ExpBar") groups=["GameManager"]]
+script = ExtResource("2_h2yge")
+ExpBar = NodePath("../UI/ExpBar")

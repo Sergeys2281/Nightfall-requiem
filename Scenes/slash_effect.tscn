@@ -1,0 +1,40 @@
+[gd_scene load_steps=7 format=3 uid="uid://dtwwxfjhwtmeh"]
+
+[ext_resource type="Script" uid="uid://bde5pffs0h374" path="res://Scenes/SlashEffect.cs" id="1_youte"]
+[ext_resource type="Texture2D" uid="uid://dk3oos1p8kx3q" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier(Split Effects)/Soldier-Attack01_Effect.png" id="2_8yfgq"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y02cy"]
+atlas = ExtResource("2_8yfgq")
+region = Rect2(300, 0, 100, 100)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhuuy"]
+atlas = ExtResource("2_8yfgq")
+region = Rect2(400, 0, 100, 100)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jyo8g"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y02cy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhuuy")
+}],
+"loop": false,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mjyyi"]
+radius = 18.027756
+
+[node name="SplashEffect" type="Area2D"]
+z_index = 1
+script = ExtResource("1_youte")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_jyo8g")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(3, 0)
+shape = SubResource("CircleShape2D_mjyyi")

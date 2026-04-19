@@ -11,7 +11,8 @@ config_version=5
 [application]
 
 config/name="Nightfall Requiem"
-config/features=PackedStringArray("4.5", "Forward Plus")
+run/main_scene="uid://b2h8s5fbi7qs5"
+config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [display]
@@ -28,3 +29,7 @@ project/assembly_name="Nightfall Requiem"
 
 version_control/plugin_name="GitPlugin"
 version_control/autoload_on_startup=true
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
