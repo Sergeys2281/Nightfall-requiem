@@ -64,7 +64,7 @@ animations = [{
 "texture": SubResource("AtlasTexture_haro7")
 }],
 "loop": true,
-"name": &"default",
+"name": &"walk",
 "speed": 5.0
 }]
 
@@ -74,13 +74,15 @@ height = 18.0
 
 [node name="Enemy_orc" type="CharacterBody2D"]
 z_index = 1
+collision_layer = 2
+collision_mask = 3
+motion_mode = 1
 script = ExtResource("1_1f0kj")
 GemScene = ExtResource("2_287tu")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_56vhr")
-frame = 4
-frame_progress = 0.8302936
+animation = &"walk"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0.5, -1)

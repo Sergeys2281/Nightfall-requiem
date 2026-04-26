@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://bpygqx0v33g1p"]
+
+[ext_resource type="Texture2D" uid="uid://b6bv4ubx1hv2i" path="res://Assets/Effect and Bullet 16x16/Water Effect and Bullet 16x16.png" id="1_1n3ur"]
+[ext_resource type="Script" uid="uid://br262n06gl4ou" path="res://Scenes/WaterProjectile.cs" id="1_h43i6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6hau2"]
+size = Vector2(9.25, 5)
+
+[node name="WaterProjectile" type="Area2D"]
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_h43i6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(1.1920929e-07, -5.9604645e-08)
+scale = Vector2(0.76562506, 0.6927083)
+texture = ExtResource("1_1n3ur")
+region_enabled = true
+region_rect = Rect2(416, 0, 16, 16)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.375, 0)
+shape = SubResource("RectangleShape2D_6hau2")

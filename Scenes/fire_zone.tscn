@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://bu81uw3d44qj8"]
+
+[ext_resource type="Script" uid="uid://3cg0kdhnmtoh" path="res://Scenes/FireZone.cs" id="1_gajg0"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_tpqii"]
+radius = 50.0
+
+[node name="FireZone" type="Area2D"]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_gajg0")
+Radius = 25.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_tpqii")

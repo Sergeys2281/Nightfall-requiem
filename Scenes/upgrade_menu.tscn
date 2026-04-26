@@ -1,0 +1,126 @@
+[gd_scene load_steps=2 format=3 uid="uid://cw4cr1cwijp5w"]
+
+[ext_resource type="Script" uid="uid://d1pjrgxq16dqf" path="res://UpgradeMenu.cs" id="1_ltp0x"]
+
+[node name="UpgradeMenu" type="Control"]
+process_mode = 3
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ltp0x")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0, 0, 0, 0.5882353)
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -409.0
+offset_top = -235.5
+offset_right = 409.0
+offset_bottom = 235.5
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Panel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 30
+
+[node name="Card1" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/Card1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/HBoxContainer/Card1/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="IconRect" type="TextureRect" parent="Panel/HBoxContainer/Card1/VBoxContainer"]
+layout_mode = 2
+stretch_mode = 3
+
+[node name="LevelLabel" type="Label" parent="Panel/HBoxContainer/Card1/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Panel/HBoxContainer/Card1/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Card2" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/Card2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/HBoxContainer/Card2/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="IconRect" type="TextureRect" parent="Panel/HBoxContainer/Card2/VBoxContainer"]
+layout_mode = 2
+stretch_mode = 3
+
+[node name="LevelLabel" type="Label" parent="Panel/HBoxContainer/Card2/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Panel/HBoxContainer/Card2/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3
+
+[node name="Card3" type="Button" parent="Panel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Panel/HBoxContainer/Card3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TitleLabel" type="Label" parent="Panel/HBoxContainer/Card3/VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+
+[node name="IconRect" type="TextureRect" parent="Panel/HBoxContainer/Card3/VBoxContainer"]
+layout_mode = 2
+stretch_mode = 3
+
+[node name="LevelLabel" type="Label" parent="Panel/HBoxContainer/Card3/VBoxContainer"]
+layout_mode = 2
+
+[node name="DescriptionLabel" type="Label" parent="Panel/HBoxContainer/Card3/VBoxContainer"]
+layout_mode = 2
+autowrap_mode = 3

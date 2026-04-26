@@ -1,12 +1,17 @@
-[gd_scene load_steps=38 format=3 uid="uid://b2h8s5fbi7qs5"]
+[gd_scene load_steps=44 format=3 uid="uid://b2h8s5fbi7qs5"]
 
 [ext_resource type="Texture2D" uid="uid://c0sqyh6rjlc2m" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Attack01.png" id="1_fkybt"]
 [ext_resource type="Script" uid="uid://br373swl2b3gu" path="res://Scenes/Player.cs" id="1_x3wgy"]
 [ext_resource type="PackedScene" uid="uid://dtwwxfjhwtmeh" path="res://Scenes/slash_effect.tscn" id="2_3smsa"]
 [ext_resource type="Texture2D" uid="uid://6fmnhte6bd4h" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Death.png" id="2_x3wgy"]
 [ext_resource type="Texture2D" uid="uid://cstsm5au0t0mu" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Hurt.png" id="3_3smsa"]
+[ext_resource type="PackedScene" uid="uid://catl2q7rjvhq5" path="res://Scenes/arrow.tscn" id="3_8erm5"]
 [ext_resource type="Texture2D" uid="uid://d3vcfwa25p5ty" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier.png" id="4_8erm5"]
+[ext_resource type="PackedScene" uid="uid://bpygqx0v33g1p" path="res://Scenes/water_projectile.tscn" id="4_gymyn"]
 [ext_resource type="Texture2D" uid="uid://2ps3053ldyfd" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Walk.png" id="5_f1ek2"]
+[ext_resource type="PackedScene" uid="uid://c4bvmx2ogv8uy" path="res://Scenes/fire_projectile.tscn" id="5_pu2lt"]
+[ext_resource type="Script" uid="uid://cdor53hoix2pe" path="res://Scenes/Aura.cs" id="9_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://d2sxng5vv5uyt" path="res://Assets/Magic_aura.png" id="10_gymyn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
 atlas = ExtResource("1_fkybt")
@@ -236,10 +241,18 @@ animations = [{
 radius = 8.0
 height = 21.0
 
+[sub_resource type="CircleShape2D" id="CircleShape2D_pu2lt"]
+radius = 35.128338
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
+collision_mask = 3
+motion_mode = 1
 script = ExtResource("1_x3wgy")
 SlashScene = ExtResource("2_3smsa")
+ArrowScene = ExtResource("3_8erm5")
+StaffProjectileScene = ExtResource("4_gymyn")
+FireProjectileScene = ExtResource("5_pu2lt")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_qpa8y")
@@ -248,7 +261,6 @@ frame = 5
 frame_progress = 1.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -0.5)
 shape = SubResource("CapsuleShape2D_x3wgy")
 
 [node name="Camera2D" type="Camera2D" parent="."]
@@ -256,3 +268,20 @@ zoom = Vector2(3, 3)
 
 [node name="AttackTimer" type="Timer" parent="."]
 autostart = true
+
+[node name="Aura" type="Area2D" parent="."]
+z_index = -1
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("9_tx1dd")
+
+[node name="Sprite2D" type="Sprite2D" parent="Aura"]
+modulate = Color(1, 1, 1, 0.39607844)
+scale = Vector2(0.06041667, 0.06041667)
+texture = ExtResource("10_gymyn")
+
+[node name="TickTimer" type="Timer" parent="Aura"]
+autostart = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Aura"]
+shape = SubResource("CircleShape2D_pu2lt")
