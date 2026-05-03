@@ -1,20 +1,23 @@
-[gd_scene load_steps=6 format=3 uid="uid://c04u2twjcytmo"]
+[gd_scene load_steps=9 format=3 uid="uid://c04u2twjcytmo"]
 
-[ext_resource type="PackedScene" uid="uid://c3p4uob7de67n" path="res://Scenes/level_forest.tscn" id="1_0xm2m"]
-[ext_resource type="PackedScene" uid="uid://b2h8s5fbi7qs5" path="res://Scenes/player.tscn" id="2_1bvp3"]
-[ext_resource type="Script" uid="uid://cgag2tbxq1otk" path="res://Scenes/GameManager.cs" id="2_h2yge"]
-[ext_resource type="PackedScene" uid="uid://cw4cr1cwijp5w" path="res://Scenes/upgrade_menu.tscn" id="4_1bvp3"]
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_h2yge"]
-bg_color = Color(1, 0, 0, 1)
+[ext_resource type="Script" uid="uid://mluylxn6g27t" path="res://Main.cs" id="1_lquwl"]
+[ext_resource type="PackedScene" uid="uid://b2h8s5fbi7qs5" path="res://scenes/player.tscn" id="2_1bvp3"]
+[ext_resource type="Script" uid="uid://cgag2tbxq1otk" path="res://scenes/GameManager.cs" id="2_h2yge"]
+[ext_resource type="PackedScene" uid="uid://1rhjba7de1cb" path="res://scenes/level_desert.tscn" id="3_7mycd"]
+[ext_resource type="PackedScene" uid="uid://cw4cr1cwijp5w" path="res://scenes/upgrade_menu.tscn" id="4_1bvp3"]
+[ext_resource type="PackedScene" uid="uid://d1msxll6nxwnh" path="res://scenes/pause_menu.tscn" id="4_7mycd"]
+[ext_resource type="PackedScene" uid="uid://d3wqunx8ux13p" path="res://scenes/game_over_menu.tscn" id="5_272bh"]
+[ext_resource type="Script" uid="uid://bqa4618cc6fi2" path="res://UpgradesDisplay.cs" id="6_5vw27"]
 
 [node name="Main" type="Node"]
+script = ExtResource("1_lquwl")
 
 [node name="LevelContainer" type="Node2D" parent="."]
 
-[node name="Level Forest" parent="LevelContainer" instance=ExtResource("1_0xm2m")]
+[node name="Level Desert" parent="LevelContainer" instance=ExtResource("3_7mycd")]
 
-[node name="Player2" parent="LevelContainer/Level Forest" instance=ExtResource("2_1bvp3")]
+[node name="Player2" parent="LevelContainer" instance=ExtResource("2_1bvp3")]
+position = Vector2(325, 172)
 
 [node name="UI" type="CanvasLayer" parent="."]
 
@@ -26,22 +29,7 @@ anchor_bottom = 1.0
 offset_top = -27.0
 grow_horizontal = 2
 grow_vertical = 0
-
-[node name="HpBar" type="ProgressBar" parent="UI"]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -30.0
-offset_top = 30.0
-offset_right = 32.0
-offset_bottom = 35.75
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_styles/fill = SubResource("StyleBoxFlat_h2yge")
-fill_mode = 1
-show_percentage = false
+metadata/_edit_use_anchors_ = true
 
 [node name="TimerLabel" type="Label" parent="UI"]
 anchors_preset = 5
@@ -51,6 +39,18 @@ offset_left = -20.0
 offset_right = 20.0
 offset_bottom = 23.0
 grow_horizontal = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="PauseMenu" parent="UI" instance=ExtResource("4_7mycd")]
+
+[node name="GameOverMenu" parent="UI" instance=ExtResource("5_272bh")]
+
+[node name="UpgradesDisplay" type="VBoxContainer" parent="UI"]
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 56.0
+script = ExtResource("6_5vw27")
 
 [node name="GameManager" type="Node" parent="." node_paths=PackedStringArray("ExpBar", "TimerLabel") groups=["GameManager"]]
 script = ExtResource("2_h2yge")

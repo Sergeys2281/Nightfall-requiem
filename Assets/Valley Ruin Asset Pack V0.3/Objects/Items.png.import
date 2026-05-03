@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://buxb7sg622pry"
-path="res://.godot/imported/Items.png-aea4fd127a8fd6f6e3afeace227c416f.ctex"
+path="res://.godot/imported/Items.png-83d1fc1e3a0d6fc0a73f3a7508c714e2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Objects/Items.png"
-dest_files=["res://.godot/imported/Items.png-aea4fd127a8fd6f6e3afeace227c416f.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Objects/Items.png"
+dest_files=["res://.godot/imported/Items.png-83d1fc1e3a0d6fc0a73f3a7508c714e2.ctex"]
 
 [params]
 

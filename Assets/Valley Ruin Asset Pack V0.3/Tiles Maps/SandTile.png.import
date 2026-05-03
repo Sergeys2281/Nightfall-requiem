@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://h7im1vu62u4a"
-path="res://.godot/imported/SandTile.png-14a838dbf9f3827c80ce860b4e83f5bb.ctex"
+path="res://.godot/imported/SandTile.png-870e9f01f157537ec2c79a2555ece239.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/SandTile.png"
-dest_files=["res://.godot/imported/SandTile.png-14a838dbf9f3827c80ce860b4e83f5bb.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/SandTile.png"
+dest_files=["res://.godot/imported/SandTile.png-870e9f01f157537ec2c79a2555ece239.ctex"]
 
 [params]
 

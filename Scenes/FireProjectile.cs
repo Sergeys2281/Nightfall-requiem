@@ -10,36 +10,38 @@ public partial class FireProjectile : Area2D
 
     [Export] public PackedScene FireZoneScene { get; set; }
 
-    private Vector2 _startPos;
-    private bool _isDestroyed = false; // ЗАПОБІЖНИК ВІД СПАМУ
+    private bool _isDestroyed = false;
+
+    private float _distanceTraveled = 0.0f;
 
     public override void _Ready()
     {
-        _startPos = GlobalPosition;
         BodyEntered += OnBodyEntered;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (_isDestroyed) return; // Якщо вже врізалися, просто чекаємо видалення
+        if (_isDestroyed) return;
 
-        GlobalPosition += Transform.X * Speed * (float)delta;
+        float step = Speed * (float)delta;
 
-        if (GlobalPosition.DistanceTo(_startPos) > 1500.0f)
+        GlobalPosition += Transform.X * step;
+
+        _distanceTraveled += step;
+
+        if (_distanceTraveled > 1500.0f)
         {
-            // Викликаємо відкладено, щоб не зламати рушій
-            CallDeferred(MethodName.SpawnZone);
             _isDestroyed = true;
+            Callable.From(SpawnZone).CallDeferred();
         }
     }
 
     private void OnBodyEntered(Node2D body)
     {
-        // Якщо це ворог і ми ще не знищені
         if (body is Enemy && !_isDestroyed)
         {
-            _isDestroyed = true; // Блокуємо всі наступні спрацьовування
-            CallDeferred(MethodName.SpawnZone);
+            _isDestroyed = true;
+            Callable.From(SpawnZone).CallDeferred();
         }
     }
 
@@ -54,8 +56,7 @@ public partial class FireProjectile : Area2D
             zone.Lifespan = ZoneLifespan;
             zone.Scale = ZoneScale;
 
-            // Додаємо калюжу туди ж, де знаходиться сам снаряд
-            GetParent().AddChild(zone);
+            GetTree().CurrentScene.AddChild(zone);
         }
 
         QueueFree();

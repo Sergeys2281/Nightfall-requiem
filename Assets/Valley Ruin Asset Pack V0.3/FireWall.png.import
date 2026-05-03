@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dslc6cxqpfho1"
-path="res://.godot/imported/FireWall.png-43cac3096b8912f677eb886faf54d08b.ctex"
+path="res://.godot/imported/FireWall.png-a12303f2c669ff0ab28ceef254dee509.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/FireWall.png"
-dest_files=["res://.godot/imported/FireWall.png-43cac3096b8912f677eb886faf54d08b.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/FireWall.png"
+dest_files=["res://.godot/imported/FireWall.png-a12303f2c669ff0ab28ceef254dee509.ctex"]
 
 [params]
 

@@ -3,35 +3,36 @@ using System;
 
 public partial class Enemy : CharacterBody2D
 {
-    // --- НАЛАШТУВАННЯ ХАРАКТЕРИСТИК ---
     [Export] public float Speed { get; set; } = 50.0f;
     [Export] public float BaseHealth { get; set; } = 20.0f;
 
-    // --- НАЛАШТУВАННЯ АТАКИ ---
     [Export] public int Damage { get; set; } = 5;
     [Export] public float AttackCooldown { get; set; } = 1.0f;
 
-    // --- ЛУТ ---
-    [Export] public PackedScene GemScene { get; set; } // Сюди треба перетягнути exp_gem.tscn
+    [Export] public PackedScene GemScene { get; set; }
 
-    private float _currentHealth;
+
+    public float _currentHealth;
     private float _timeSinceLastAttack = 0.0f;
     private Player _player;
     private AnimatedSprite2D _animatedSprite;
 
+    public int ScoreValue = 1;
+
+    private Color _baseColor;
+
     public override void _Ready()
     {
-        // 1. Обов'язково додаємо в групу для лімітів спавнера
+        _baseColor = Modulate;
+
         AddToGroup("Enemies");
 
-        // 2. Шукаємо гравця
         var playerNode = GetTree().GetFirstNodeInGroup("Player");
         if (playerNode != null)
         {
             _player = playerNode as Player;
         }
 
-        // 3. Запитуємо у GameManager множник здоров'я
         var gm = GetTree().Root.FindChild("GameManager", true, false) as GameManager;
         float multiplier = gm?.GetEnemyHpMultiplier() ?? 1.0f;
 
@@ -43,16 +44,13 @@ public partial class Enemy : CharacterBody2D
 
     public override void _PhysicsProcess(double delta)
     {
-        // Додаємо час до таймера атаки незалежно від того, чи ми торкаємося гравця
         _timeSinceLastAttack += (float)delta;
 
         if (_player != null)
         {
-            // --- РУХ ---
             Vector2 direction = GlobalPosition.DirectionTo(_player.GlobalPosition);
             Velocity = direction * Speed;
 
-            // --- ДОДАЄМО АНІМАЦІЮ ПОВОРОТУ ---
             if (_animatedSprite != null && direction.X != 0)
             {
                 _animatedSprite.FlipH = direction.X < 0;
@@ -61,7 +59,6 @@ public partial class Enemy : CharacterBody2D
             MoveAndSlide();
 
 
-            // --- АТАКА ---
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
                 var collision = GetSlideCollision(i);
@@ -83,9 +80,9 @@ public partial class Enemy : CharacterBody2D
     {
         _currentHealth -= damage;
 
-        // орк блимає червоним
-        Modulate = new Color(1, 0, 0);
-        GetTree().CreateTimer(0.1f).Timeout += () => Modulate = new Color(1, 1, 1);
+        Modulate = new Color(2, 2, 2);
+
+        GetTree().CreateTimer(0.1f).Timeout += () => Modulate = _baseColor;
 
         if (_currentHealth <= 0)
         {
@@ -95,15 +92,14 @@ public partial class Enemy : CharacterBody2D
 
     private void Die()
     {
-        // Якщо сцена кристала додана, спавнимо її
+        GameManager.CurrentScore += ScoreValue;
         if (GemScene != null)
         {
             var gem = GemScene.Instantiate<Node2D>();
 
-            // Використовуємо CallDeferred для безпечного додавання об'єкта під час розрахунку фізики
             GetParent().CallDeferred("add_child", gem);
 
-            gem.GlobalPosition = GlobalPosition; // Кристал падає там, де помер ворог
+            gem.GlobalPosition = GlobalPosition;
         }
 
         QueueFree();

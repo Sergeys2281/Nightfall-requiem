@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dlqy5nvly0523"
-path="res://.godot/imported/FlowerAndGrass.png-e332e07fe4b683582f4529b07c500527.ctex"
+path="res://.godot/imported/FlowerAndGrass.png-3dcd268ff54d6d5eb916f79a5b7ef755.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/FlowerAndGrass.png"
-dest_files=["res://.godot/imported/FlowerAndGrass.png-e332e07fe4b683582f4529b07c500527.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/FlowerAndGrass.png"
+dest_files=["res://.godot/imported/FlowerAndGrass.png-3dcd268ff54d6d5eb916f79a5b7ef755.ctex"]
 
 [params]
 

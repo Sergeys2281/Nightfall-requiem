@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dxki8d0wiofa6"
-path="res://.godot/imported/RockWall.png-6482c5dbe032ef38b086c6df9d913590.ctex"
+path="res://.godot/imported/RockWall.png-18135bbe8bc4f1396f1bbd564030eabd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/RockWall.png"
-dest_files=["res://.godot/imported/RockWall.png-6482c5dbe032ef38b086c6df9d913590.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/RockWall.png"
+dest_files=["res://.godot/imported/RockWall.png-18135bbe8bc4f1396f1bbd564030eabd.ctex"]
 
 [params]
 

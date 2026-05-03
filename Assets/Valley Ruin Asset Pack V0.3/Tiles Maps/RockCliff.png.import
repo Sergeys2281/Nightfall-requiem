@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://cm7d4kumk5pfg"
-path="res://.godot/imported/RockCliff.png-fa612e312d4b19fe2369595d38d0bd1b.ctex"
+path="res://.godot/imported/RockCliff.png-a66c45be1ed2531a7b2faf936b7d74e6.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/RockCliff.png"
-dest_files=["res://.godot/imported/RockCliff.png-fa612e312d4b19fe2369595d38d0bd1b.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/RockCliff.png"
+dest_files=["res://.godot/imported/RockCliff.png-a66c45be1ed2531a7b2faf936b7d74e6.ctex"]
 
 [params]
 

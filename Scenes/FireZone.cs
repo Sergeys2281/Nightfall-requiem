@@ -11,18 +11,13 @@ public partial class FireZone : Area2D
 
     public override void _Ready()
     {
-        // 1. СИНХРОНІЗАЦІЯ З КОЛІЗІЄЮ
-        // Шукаємо вузол колізії
         var collisionShape = GetNodeOrNull<CollisionShape2D>("CollisionShape2D");
 
-        // Перевіряємо, чи він існує і чи це справді коло (CircleShape2D)
         if (collisionShape != null && collisionShape.Shape is CircleShape2D circle)
         {
-            // Призначаємо фізичний радіус рівним нашому візуальному
             circle.Radius = Radius;
         }
 
-        // 2. ТАЙМЕРИ
         Timer tickTimer = new Timer();
         tickTimer.WaitTime = 0.5f;
         tickTimer.Autostart = true;
@@ -31,13 +26,11 @@ public partial class FireZone : Area2D
 
         GetTree().CreateTimer(Lifespan).Timeout += () => QueueFree();
 
-        // 3. ВІЗУАЛЬНЕ ОНОВЛЕННЯ
         QueueRedraw();
     }
 
     public override void _Draw()
     {
-        // Малюємо коло, використовуючи той самий Radius
         DrawCircle(Vector2.Zero, Radius, ZoneColor);
     }
 

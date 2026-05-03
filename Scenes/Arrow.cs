@@ -11,7 +11,7 @@ public partial class Arrow : Area2D
 
     public override void _Ready()
     {
-        _startPosition = GlobalPosition; // Запам'ятовуємо старт
+        _startPosition = GlobalPosition;
         BodyEntered += OnBodyEntered;
     }
 
@@ -19,10 +19,9 @@ public partial class Arrow : Area2D
     {
         GlobalPosition += Transform.X * Speed * (float)delta;
 
-        // ПЕРЕВІРКА ДИСТАНЦІЇ
         if (GlobalPosition.DistanceTo(_startPosition) > MaxDistance)
         {
-            QueueFree(); // Видаляємо стрілу, якщо вона відлетіла далеко
+            QueueFree();
         }
     }
 

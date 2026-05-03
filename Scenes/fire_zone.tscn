@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bu81uw3d44qj8"]
 
-[ext_resource type="Script" uid="uid://3cg0kdhnmtoh" path="res://Scenes/FireZone.cs" id="1_gajg0"]
+[ext_resource type="Script" uid="uid://3cg0kdhnmtoh" path="res://scenes/FireZone.cs" id="1_gajg0"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_tpqii"]
 radius = 50.0

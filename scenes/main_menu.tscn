@@ -1,0 +1,91 @@
+[gd_scene load_steps=4 format=3 uid="uid://dh1ono8cg1ygd"]
+
+[ext_resource type="Script" uid="uid://chu3lq1mqma5h" path="res://MainMenu.cs" id="1_28flt"]
+[ext_resource type="Texture2D" uid="uid://cb2rlcltd41rq" path="res://assets/background.png" id="2_ekxnf"]
+[ext_resource type="AudioStream" uid="uid://cy5novkpuecsm" path="res://sounds/mainmenu.mp3" id="3_bqqt6"]
+
+[node name="MainMenu" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_28flt")
+
+[node name="ColorRect" type="TextureRect" parent="."]
+modulate = Color(0.46358675, 0.46358675, 0.4635867, 1)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ekxnf")
+expand_mode = 1
+
+[node name="MainPanel" type="Control" parent="."]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MainPanel"]
+layout_mode = 0
+offset_left = 144.0
+offset_top = 256.0
+offset_right = 470.0
+offset_bottom = 462.0
+
+[node name="Label" type="Label" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Nightfall Requiem"
+horizontal_alignment = 1
+
+[node name="PlayButton" type="Button" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Грати"
+
+[node name="QuitButton" type="Button" parent="MainPanel/VBoxContainer"]
+layout_mode = 2
+text = "Вихід"
+
+[node name="LevelSelectPanel" type="Control" parent="."]
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="LevelSelectPanel"]
+layout_mode = 1
+offset_left = 56.0
+offset_top = 256.0
+offset_right = 563.0
+offset_bottom = 596.0
+
+[node name="Label" type="Label" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+text = "Виберіть локацію"
+horizontal_alignment = 1
+
+[node name="HighScoreLabel" type="Label" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+horizontal_alignment = 1
+
+[node name="ForestButton" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+text = "Ліс (Складність 0%)"
+
+[node name="DesertButton" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+text = "Пустеля (Складність: +25%)"
+
+[node name="BackButton" type="Button" parent="LevelSelectPanel/VBoxContainer"]
+layout_mode = 2
+text = "Назад"
+
+[node name="MenuMusic" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_bqqt6")
+autoplay = true
+
+[connection signal="pressed" from="MainPanel/VBoxContainer/PlayButton" to="." method="_on_play_button_pressed"]
+[connection signal="pressed" from="MainPanel/VBoxContainer/QuitButton" to="." method="_on_quit_button_pressed"]

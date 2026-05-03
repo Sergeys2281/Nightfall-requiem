@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d4cy66kx76irc"
-path="res://.godot/imported/stone and bush.png-685fe28ea7c2f596c545d3b684149bf1.ctex"
+path="res://.godot/imported/stone and bush.png-ba4c36ff0a67cfe547bde87bb1ebfae2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Objects/stone and bush.png"
-dest_files=["res://.godot/imported/stone and bush.png-685fe28ea7c2f596c545d3b684149bf1.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Objects/stone and bush.png"
+dest_files=["res://.godot/imported/stone and bush.png-ba4c36ff0a67cfe547bde87bb1ebfae2.ctex"]
 
 [params]
 

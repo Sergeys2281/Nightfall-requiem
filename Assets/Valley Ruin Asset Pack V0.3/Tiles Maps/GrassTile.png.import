@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dft34bst3w1kd"
-path="res://.godot/imported/GrassTile.png-afb31ccf4c10491447fc9dd99420b2dd.ctex"
+path="res://.godot/imported/GrassTile.png-5319b982e6665146146a23f3322bff09.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/GrassTile.png"
-dest_files=["res://.godot/imported/GrassTile.png-afb31ccf4c10491447fc9dd99420b2dd.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/GrassTile.png"
+dest_files=["res://.godot/imported/GrassTile.png-5319b982e6665146146a23f3322bff09.ctex"]
 
 [params]
 

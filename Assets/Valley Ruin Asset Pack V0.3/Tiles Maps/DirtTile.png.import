@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dbj0es6ndmen7"
-path="res://.godot/imported/DirtTile.png-a3edbf01de2ebd6c68d163c849c30381.ctex"
+path="res://.godot/imported/DirtTile.png-47bbd447bc3f7eda5f7dc72fd52353a5.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/DirtTile.png"
-dest_files=["res://.godot/imported/DirtTile.png-a3edbf01de2ebd6c68d163c849c30381.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/DirtTile.png"
+dest_files=["res://.godot/imported/DirtTile.png-47bbd447bc3f7eda5f7dc72fd52353a5.ctex"]
 
 [params]
 

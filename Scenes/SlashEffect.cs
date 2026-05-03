@@ -8,13 +8,10 @@ public partial class SlashEffect : Area2D
     {
         var anim = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
 
-        // Як тільки з'являємося програємо анімацію
         anim.Play("default");
 
-        // Коли анімація закінчується автоматично видаляємо ефект з пам'яті
         anim.AnimationFinished += QueueFree;
 
-        // Підключаємо вбудований сигнал Godot: якщо хтось торкається цієї зони
         BodyEntered += OnBodyEntered;
     }
 

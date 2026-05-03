@@ -5,32 +5,110 @@ using System.Linq;
 
 public partial class GameManager : Node
 {
-    // --- ПІДКЛЮЧЕННЯ UI ---
     [Export] public ProgressBar ExpBar { get; set; }
     [Export] public Label TimerLabel { get; set; }
     [Export] public PackedScene UpgradeMenuScene { get; set; }
 
-    // --- ДАНІ ГРАВЦЯ ---
     public int CurrentLevel = 1;
     public int CurrentExperience = 0;
     public int ExperienceToNextLevel = 100;
 
-    // --- ЛОГІКА ТАЙМЕРА ТА СКЛАДНОСТІ ---
     private float _timeElapsed = 0.0f;
     private int _difficultyLevel = 0;
-    private const float DifficultyStepTime = 30.0f; // Кожні 30 секунд складність росте
+    private const float DifficultyStepTime = 30.0f;
 
-    // --- СИСТЕМА ПОЛІПШЕНЬ ---
     private const int MaxActiveSlots = 3;
     private const int MaxPassiveSlots = 3;
 
-    public List<string> ActiveSlots = new List<string> { "Sword" }; // Меч є зі старту
+    public List<string> ActiveSlots = new List<string> { "Sword" };
     public List<string> PassiveSlots = new List<string>();
-    public Dictionary<string, int> UpgradeLevels = new Dictionary<string, int> { { "Sword", 1 }, {"FireStaff", 1 } };
+    public Dictionary<string, int> UpgradeLevels = new Dictionary<string, int> {  };
+
+
+    public static string SelectedLevelPath = "res://scenes/level_desert.tscn";
+
+    public static int CurrentScore = 0;
+    public static double RunTime = 0.0;
+    public static int HighScore = 0;
+
+    private const string SavePath = "user://highscore.save";
+
+    private bool _isHordeMode = false;
 
     public override void _Ready()
     {
+        CurrentScore = 0;
+        RunTime = 0.0;
+
+        var levelContainer = GetParent().GetNode<Node>("LevelContainer");
+
+        foreach (Node child in levelContainer.GetChildren())
+        {
+            if (child.Name != "Player2")
+            {
+                levelContainer.RemoveChild(child);
+                child.QueueFree();
+            }
+        }
+
+        var levelScene = GD.Load<PackedScene>(SelectedLevelPath);
+        if (levelScene != null)
+        {
+            var newLevel = levelScene.Instantiate();
+
+            levelContainer.AddChild(newLevel);
+
+            levelContainer.MoveChild(newLevel, 0);
+
+            GD.Print($"Рівень {SelectedLevelPath} успішно завантажено в Main!");
+        }
+        else
+        {
+            GD.PrintErr("Не вдалося завантажити сцену рівня! Перевір шлях.");
+        }
+
         UpdateUI();
+
+        CallDeferred("ApplyUpgrade", "Sword");
+    }
+    public override void _Process(double delta)
+    {
+        RunTime += delta;
+    }
+
+    public override void _PhysicsProcess(double delta)
+    {
+        _timeElapsed += (float)delta;
+
+        UpdateTimerDisplay();
+
+        if (_timeElapsed >= 1800.0f && !_isHordeMode)
+        {
+            _isHordeMode = true;
+            TriggerHordeMode();
+        }
+
+        int newDifficulty = (int)(_timeElapsed / DifficultyStepTime);
+        if (newDifficulty > _difficultyLevel)
+        {
+            _difficultyLevel = newDifficulty;
+
+            if (!_isHordeMode)
+            {
+                OnDifficultyIncreased();
+            }
+        }
+    }
+
+    private void TriggerHordeMode()
+    {
+        GD.Print("💀 30 ХВИЛИН! ПОЧИНАЄТЬСЯ НЕСКІНЧЕННА ОРДА!");
+
+        var spawnerNode = GetTree().Root.FindChild("EnemySpawner", true, false);
+        if (spawnerNode is EnemySpawner spawner)
+        {
+            spawner.ActivateHordeMode();
+        }
     }
 
     public class UpgradeData
@@ -38,10 +116,9 @@ public partial class GameManager : Node
         public string Id;
         public string Title;
         public string Description;
-        public bool IsActive; // true = зброя, false = пасивне (статус)
+        public bool IsActive;
     }
 
-    // Всі існуючі в грі предмети
     public Dictionary<string, UpgradeData> UpgradeDatabase = new Dictionary<string, UpgradeData>
     {
         { "Sword", new UpgradeData { Id = "Sword", Title = "🗡️ Поліпшення Меча", Description = "Збільшує шкоду від меча.", IsActive = true } },
@@ -59,23 +136,19 @@ public partial class GameManager : Node
 
     private RandomNumberGenerator _rng = new RandomNumberGenerator();
 
-    // Функція генерації 3 варіантів для меню
     public List<UpgradeData> GetUpgradeChoices()
     {
         List<UpgradeData> pool = new List<UpgradeData>();
 
         foreach (var item in UpgradeDatabase.Values)
         {
-            // ПЕРЕВІРКА ЛІМІТУ: Якщо рівень вже 5 або більше, пропускаємо цей предмет
             int currentLvl = GetUpgradeLevel(item.Id);
             if (currentLvl >= 5) continue;
-            // Перевіряємо чи це активний слот і чи є для нього місце
             if (item.IsActive)
             {
-                if (ActiveSlots.Contains(item.Id)) pool.Add(item); // Вже є, прокачка
-                else if (ActiveSlots.Count < MaxActiveSlots) pool.Add(item); // Є вільний слот
+                if (ActiveSlots.Contains(item.Id)) pool.Add(item);
+                else if (ActiveSlots.Count < MaxActiveSlots) pool.Add(item);
             }
-            // Перевірка пасивок
             else
             {
                 if (PassiveSlots.Contains(item.Id)) pool.Add(item);
@@ -89,7 +162,6 @@ public partial class GameManager : Node
     public float GetStrengthMultiplier()
     {
         int level = UpgradeLevels.ContainsKey("Damage") ? UpgradeLevels["Damage"] : 0;
-        // Кожен рівень додає 5% до бази
         return 1.0f + (level * 0.05f);
     }
 
@@ -98,7 +170,6 @@ public partial class GameManager : Node
         return UpgradeLevels.ContainsKey(id) ? UpgradeLevels[id] : 0;
     }
 
-    // Застосування вибору
     public void ApplyUpgrade(string id)
     {
         var data = UpgradeDatabase[id];
@@ -114,30 +185,20 @@ public partial class GameManager : Node
         var player = GetTree().GetFirstNodeInGroup("Player") as Player;
         if (player != null)
         {
-            // Старі пасивки
             if (id == "MaxHP") { player.MaxHealth += 20; player.Heal(20); }
             else if (id == "Speed") { player.Speed += 15.0f; }
 
-            // Нові пасивки
             else if (id == "Armor") { player.Armor += 1; }
             else if (id == "Cooldown") { player.UpdateAttackSpeed(); }
-            // Regen працює через таймер гравця
 
             else if (id == "Aura" || id == "Damage") { player.UpdateAuraStatus(); }
         }
-    }
 
-    public override void _PhysicsProcess(double delta)
-    {
-        _timeElapsed += (float)delta;
+        var upgradesUI = GetTree().CurrentScene.GetNodeOrNull<UpgradesDisplay>("UI/UpgradesDisplay");
 
-        UpdateTimerDisplay();
-
-        int newDifficulty = (int)(_timeElapsed / DifficultyStepTime);
-        if (newDifficulty > _difficultyLevel)
+        if (upgradesUI != null)
         {
-            _difficultyLevel = newDifficulty;
-            OnDifficultyIncreased();
+            upgradesUI.AddOrUpdateUpgrade(data.Title, UpgradeLevels[id]);
         }
     }
 
@@ -145,7 +206,6 @@ public partial class GameManager : Node
     {
         if (TimerLabel == null) return;
 
-        // Конвертуємо секунди у хвилини та секунди
         int minutes = (int)_timeElapsed / 60;
         int seconds = (int)_timeElapsed % 60;
 
@@ -156,7 +216,6 @@ public partial class GameManager : Node
     {
         GD.Print($"[Складність] Рівень підвищено до: {_difficultyLevel}");
 
-        // Знаходимо спавнер і кажемо йому оновити ліміти
         var spawnerNode = GetTree().Root.FindChild("EnemySpawner", true, false);
         if (spawnerNode is EnemySpawner spawner)
         {
@@ -164,14 +223,11 @@ public partial class GameManager : Node
         }
     }
 
-    // Функція яку вороги викликають при появі щоб дізнатися свій бонус до ХП
     public float GetEnemyHpMultiplier()
     {
-        // Додаємо 5% здоров'я за кожен рівень складності
         return 1.0f + (_difficultyLevel * 0.05f);
     }
 
-    // --- СИСТЕМА ДОСВІДУ ---
     public void AddExperience(int amount)
     {
         CurrentExperience += amount;
@@ -213,6 +269,28 @@ public partial class GameManager : Node
         {
             ExpBar.MaxValue = ExperienceToNextLevel;
             ExpBar.Value = CurrentExperience;
+        }
+    }
+
+    public static void SaveHighScore()
+    {
+        // Відкриваємо файл для запису
+        using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
+        if (file != null)
+        {
+            file.Store32((uint)HighScore);
+        }
+    }
+
+    public static void LoadHighScore()
+    {
+        if (FileAccess.FileExists(SavePath))
+        {
+            using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Read);
+            if (file != null)
+            {
+                HighScore = (int)file.Get32();
+            }
         }
     }
 }

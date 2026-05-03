@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://dtwwxfjhwtmeh"]
 
-[ext_resource type="Script" uid="uid://bde5pffs0h374" path="res://Scenes/SlashEffect.cs" id="1_youte"]
-[ext_resource type="Texture2D" uid="uid://dk3oos1p8kx3q" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier(Split Effects)/Soldier-Attack01_Effect.png" id="2_8yfgq"]
+[ext_resource type="Script" uid="uid://bde5pffs0h374" path="res://scenes/SlashEffect.cs" id="1_youte"]
+[ext_resource type="Texture2D" uid="uid://dk3oos1p8kx3q" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier(Split Effects)/Soldier-Attack01_Effect.png" id="2_8yfgq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_y02cy"]
 atlas = ExtResource("2_8yfgq")

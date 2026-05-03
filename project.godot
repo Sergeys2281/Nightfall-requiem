@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Nightfall Requiem"
-run/main_scene="uid://b2h8s5fbi7qs5"
+run/main_scene="uid://dh1ono8cg1ygd"
 config/features=PackedStringArray("4.5", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 

@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dvt7hqkceui6f"
-path="res://.godot/imported/Giant_Tree.png-f4eaeeca6094b18892fe01452a78a324.ctex"
+path="res://.godot/imported/Giant_Tree.png-1b73d260e57a59ab561a8021ecda9694.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Objects/Giant_Tree.png"
-dest_files=["res://.godot/imported/Giant_Tree.png-f4eaeeca6094b18892fe01452a78a324.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Objects/Giant_Tree.png"
+dest_files=["res://.godot/imported/Giant_Tree.png-1b73d260e57a59ab561a8021ecda9694.ctex"]
 
 [params]
 

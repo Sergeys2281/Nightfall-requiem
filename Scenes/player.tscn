@@ -1,17 +1,22 @@
-[gd_scene load_steps=44 format=3 uid="uid://b2h8s5fbi7qs5"]
+[gd_scene load_steps=50 format=3 uid="uid://b2h8s5fbi7qs5"]
 
-[ext_resource type="Texture2D" uid="uid://c0sqyh6rjlc2m" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Attack01.png" id="1_fkybt"]
-[ext_resource type="Script" uid="uid://br373swl2b3gu" path="res://Scenes/Player.cs" id="1_x3wgy"]
-[ext_resource type="PackedScene" uid="uid://dtwwxfjhwtmeh" path="res://Scenes/slash_effect.tscn" id="2_3smsa"]
-[ext_resource type="Texture2D" uid="uid://6fmnhte6bd4h" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Death.png" id="2_x3wgy"]
-[ext_resource type="Texture2D" uid="uid://cstsm5au0t0mu" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Hurt.png" id="3_3smsa"]
-[ext_resource type="PackedScene" uid="uid://catl2q7rjvhq5" path="res://Scenes/arrow.tscn" id="3_8erm5"]
-[ext_resource type="Texture2D" uid="uid://d3vcfwa25p5ty" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier.png" id="4_8erm5"]
-[ext_resource type="PackedScene" uid="uid://bpygqx0v33g1p" path="res://Scenes/water_projectile.tscn" id="4_gymyn"]
-[ext_resource type="Texture2D" uid="uid://2ps3053ldyfd" path="res://Assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Walk.png" id="5_f1ek2"]
-[ext_resource type="PackedScene" uid="uid://c4bvmx2ogv8uy" path="res://Scenes/fire_projectile.tscn" id="5_pu2lt"]
-[ext_resource type="Script" uid="uid://cdor53hoix2pe" path="res://Scenes/Aura.cs" id="9_tx1dd"]
-[ext_resource type="Texture2D" uid="uid://d2sxng5vv5uyt" path="res://Assets/Magic_aura.png" id="10_gymyn"]
+[ext_resource type="Texture2D" uid="uid://c0sqyh6rjlc2m" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Attack01.png" id="1_fkybt"]
+[ext_resource type="Script" uid="uid://br373swl2b3gu" path="res://scenes/Player.cs" id="1_x3wgy"]
+[ext_resource type="PackedScene" uid="uid://dtwwxfjhwtmeh" path="res://scenes/slash_effect.tscn" id="2_3smsa"]
+[ext_resource type="Texture2D" uid="uid://6fmnhte6bd4h" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Death.png" id="2_x3wgy"]
+[ext_resource type="Texture2D" uid="uid://cstsm5au0t0mu" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Hurt.png" id="3_3smsa"]
+[ext_resource type="PackedScene" uid="uid://catl2q7rjvhq5" path="res://scenes/arrow.tscn" id="3_8erm5"]
+[ext_resource type="Texture2D" uid="uid://d3vcfwa25p5ty" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier.png" id="4_8erm5"]
+[ext_resource type="PackedScene" uid="uid://bpygqx0v33g1p" path="res://scenes/water_projectile.tscn" id="4_gymyn"]
+[ext_resource type="Texture2D" uid="uid://2ps3053ldyfd" path="res://assets/Tiny RPG Character Asset Pack v1.03b -Free Soldier&Orc/Tiny RPG Character Asset Pack v1.03 -Free Soldier&Orc/Characters(100x100)/Soldier/Soldier with shadows/Soldier-Walk.png" id="5_f1ek2"]
+[ext_resource type="PackedScene" uid="uid://c4bvmx2ogv8uy" path="res://scenes/fire_projectile.tscn" id="5_pu2lt"]
+[ext_resource type="Script" uid="uid://cdor53hoix2pe" path="res://scenes/Aura.cs" id="9_tx1dd"]
+[ext_resource type="Texture2D" uid="uid://d2sxng5vv5uyt" path="res://assets/Magic_aura.png" id="10_gymyn"]
+[ext_resource type="AudioStream" uid="uid://d0is5yxi61cum" path="res://sounds/sword_attack.wav" id="13_qfm1y"]
+[ext_resource type="AudioStream" uid="uid://dq7wy1vkieyc7" path="res://sounds/damage_taken.mp3" id="14_fulsm"]
+[ext_resource type="AudioStream" uid="uid://c8sr83ga5ofhf" path="res://sounds/bow_attack.mp3" id="15_4r5pv"]
+[ext_resource type="AudioStream" uid="uid://b6am7cgtuwxpx" path="res://sounds/firestaff_attack.mp3" id="16_60mlk"]
+[ext_resource type="AudioStream" uid="uid://bg1d18wqwuas5" path="res://sounds/waterstaff_attack.wav" id="17_i4ail"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_tx1dd"]
 atlas = ExtResource("1_fkybt")
@@ -244,6 +249,9 @@ height = 21.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_pu2lt"]
 radius = 35.128338
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_pu2lt"]
+bg_color = Color(1, 0, 0, 1)
+
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
 collision_mask = 3
@@ -263,7 +271,7 @@ frame_progress = 1.0
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CapsuleShape2D_x3wgy")
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." groups=["MainCamera"]]
 zoom = Vector2(3, 3)
 
 [node name="AttackTimer" type="Timer" parent="."]
@@ -285,3 +293,39 @@ autostart = true
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Aura"]
 shape = SubResource("CircleShape2D_pu2lt")
+
+[node name="HpBar" type="ProgressBar" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -17.0
+offset_top = 15.0
+offset_right = 51.0
+offset_bottom = 19.080645
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.5, 0.5)
+theme_override_styles/fill = SubResource("StyleBoxFlat_pu2lt")
+show_percentage = false
+
+[node name="SwordSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("13_qfm1y")
+volume_db = -10.0
+
+[node name="DamageSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("14_fulsm")
+volume_db = -10.0
+
+[node name="BowSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("15_4r5pv")
+volume_db = -10.0
+
+[node name="FireStaffSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("16_60mlk")
+volume_db = -10.0
+
+[node name="WaterStaffSound" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("17_i4ail")
+volume_db = -10.0

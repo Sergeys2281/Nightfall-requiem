@@ -11,22 +11,17 @@ public partial class WaterProjectile : Area2D
 
     public override void _Ready()
     {
-        // Запам'ятовуємо початкову точку при спавні
         _startPosition = GlobalPosition;
 
-        // Підключаємо подію зіткнення
         BodyEntered += OnBodyEntered;
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        // Летимо вперед
         GlobalPosition += Transform.X * Speed * (float)delta;
 
-        // Рахуємо дистанцію від точки старту до поточної позиції
         float distanceTraveled = GlobalPosition.DistanceTo(_startPosition);
 
-        // Якщо пролетіли занадто далеко, зникаємо
         if (distanceTraveled > MaxDistance)
         {
             QueueFree();

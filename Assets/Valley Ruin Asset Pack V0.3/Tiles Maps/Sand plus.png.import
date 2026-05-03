@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://bfnsyytsdhu1n"
-path="res://.godot/imported/Sand plus.png-60277193725912a5f5840cde31c264de.ctex"
+path="res://.godot/imported/Sand plus.png-67a81e861568e15d2a5761d1f1b92c2a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Tiles Maps/Sand plus.png"
-dest_files=["res://.godot/imported/Sand plus.png-60277193725912a5f5840cde31c264de.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Tiles Maps/Sand plus.png"
+dest_files=["res://.godot/imported/Sand plus.png-67a81e861568e15d2a5761d1f1b92c2a.ctex"]
 
 [params]
 

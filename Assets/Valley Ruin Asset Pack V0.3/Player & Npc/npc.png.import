@@ -3,15 +3,15 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dyu4nqeph38fm"
-path="res://.godot/imported/npc.png-464f48667659b8132dd09e2f4145e12d.ctex"
+path="res://.godot/imported/npc.png-d4fa5d4a99143075d83836c9026849db.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Valley Ruin Asset Pack V0.3/Player & Npc/npc.png"
-dest_files=["res://.godot/imported/npc.png-464f48667659b8132dd09e2f4145e12d.ctex"]
+source_file="res://assets/Valley Ruin Asset Pack V0.3/Player & Npc/npc.png"
+dest_files=["res://.godot/imported/npc.png-d4fa5d4a99143075d83836c9026849db.ctex"]
 
 [params]
 
