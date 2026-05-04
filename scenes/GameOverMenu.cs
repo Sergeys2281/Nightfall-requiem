@@ -1,16 +1,28 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Клас, що відповідає за екран поразки (Game Over).
+/// Відображає фінальний рахунок, час виживання гравця та обробляє збереження нового рекорду.
+/// </summary>
 public partial class GameOverMenu : Control
 {
     [Export] public Label ScoreLabel;
     [Export] public Label TimeLabel;
 
+    /// <summary>
+    /// Викликається рушієм Godot при готовності вузла.
+    /// Приховує екран поразки при старті гри, щоб він не заважав ігровому процесу.
+    /// </summary>
     public override void _Ready()
     {
         Hide();
     }
 
+    /// <summary>
+    /// Активує екран поразки, зупиняє гру (ставить на паузу), оновлює статистику
+    /// та перевіряє, чи було встановлено новий рекорд.
+    /// </summary>
     public void ShowGameOver()
     {
         if (GameManager.CurrentScore > GameManager.HighScore)
@@ -36,6 +48,10 @@ public partial class GameOverMenu : Control
         Show();
     }
 
+    /// <summary>
+    /// Обробник події натискання кнопки повернення до головного меню.
+    /// Знімає гру з паузи та завантажує сцену стартового меню.
+    /// </summary>
     public void _on_menu_button_pressed()
     {
         GetTree().Paused = false;

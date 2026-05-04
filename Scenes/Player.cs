@@ -1,15 +1,31 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Головний клас гравця. Відповідає за переміщення, обробку характеристик (здоров'я, броня), 
+/// отримання шкоди, регенерацію, а також керує таймерами та логікою всіх доступних видів зброї.
+/// </summary>
 public partial class Player : CharacterBody2D
 {
+    /// <summary>Базова швидкість пересування гравця.</summary>
     [Export] public float Speed { get; set; } = 150.0f;
+
+    /// <summary>Шаблон сцени для ефекту удару мечем ближнього бою.</summary>
     [Export] public PackedScene SlashScene { get; set; }
 
+    /// <summary>Максимальний запас здоров'я гравця.</summary>
     [Export] public int MaxHealth { get; set; } = 100;
+
+    /// <summary>Додаткова шкода, яка додається до базових атак.</summary>
     [Export] public int BonusDamage { get; set; } = 0;
+
+    /// <summary>Шаблон сцени стріли для лука.</summary>
     [Export] public PackedScene ArrowScene { get; set; }
+
+    /// <summary>Шаблон сцени водяного снаряда для посоху води.</summary>
     [Export] public PackedScene StaffProjectileScene { get; set; }
+
+    /// <summary>Шаблон сцени вогняного снаряда для вогняного посоху.</summary>
     [Export] public PackedScene FireProjectileScene { get; set; }
 
     private int _currentHealth = 100;
@@ -17,10 +33,11 @@ public partial class Player : CharacterBody2D
 
     private AnimatedSprite2D _animatedSprite;
 
+    /// <summary>Показник броні, який прямо зменшує отриману шкоду від ворогів.</summary>
     public int Armor { get; set; } = 0;
     private Timer _regenTimer;
 
-
+    /// <summary>Публічне поле для зберігання поточного ліміту здоров'я гравця.</summary>
     public int MaxHp = 100;
 
     private AudioStreamPlayer _swordSound;
@@ -29,6 +46,11 @@ public partial class Player : CharacterBody2D
     private AudioStreamPlayer _firestaffSound;
     private AudioStreamPlayer _waterstaffSound;
 
+    /// <summary>
+    /// Викликається рушієм Godot при готовності вузла на сцені.
+    /// Ініціалізує анімації, підключає інтерфейс смуги здоров'я, налаштовує аудіо 
+    /// та динамічно створює таймери для автоматичних атак і регенерації.
+    /// </summary>
     public override void _Ready()
     {
         _animatedSprite = GetNode<AnimatedSprite2D>("AnimatedSprite2D");
@@ -78,6 +100,12 @@ public partial class Player : CharacterBody2D
         _waterstaffSound = GetNodeOrNull<AudioStreamPlayer>("WaterStaffSound");
     }
 
+    /// <summary>
+    /// Обробляється кожен фізичний кадр гри.
+    /// Відповідає за зчитування векторів введення для переміщення (WASD/стрілочки),
+    /// керує рухом через <see cref="CharacterBody2D.MoveAndSlide"/> та оновлює спрайт анімації.
+    /// </summary>
+    /// <param name="delta">Час у секундах, що минув з попереднього фізичного кадру.</param>
     public override void _PhysicsProcess(double delta)
     {
         Vector2 direction = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
@@ -100,6 +128,11 @@ public partial class Player : CharacterBody2D
         MoveAndSlide();
     }
 
+    /// <summary>
+    /// Завдає шкоди гравцю, враховуючи показник броні (мінімальна шкода завжди дорівнює 1).
+    /// Оновлює смугу здоров'я, відтворює звук, робить візуальний спалах і перевіряє умови смерті.
+    /// </summary>
+    /// <param name="amount">Сила атаки ворога.</param>
     public void TakeDamage(int amount)
     {
         int finalDamage = Math.Max(1, amount - Armor);
@@ -119,6 +152,11 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Відновлює здоров'я гравця. Не може перевищити максимальний ліміт (<see cref="MaxHealth"/>).
+    /// Оновлює інтерфейс та створює зелений візуальний спалах лікування.
+    /// </summary>
+    /// <param name="amount">Кількість одиниць здоров'я для відновлення.</param>
     public void Heal(int amount)
     {
         _currentHealth += amount;
@@ -130,9 +168,12 @@ public partial class Player : CharacterBody2D
         GetTree().CreateTimer(0.1f).Timeout += () => Modulate = new Color(1, 1, 1);
     }
 
+    /// <summary>
+    /// Обробляє загибель героя: знаходить в дереві сцени екран поразки (Game Over Menu) 
+    /// та викликає його для завершення поточної ігрової сесії.
+    /// </summary>
     public void Die()
     {
-
         var rawNode = GetTree().CurrentScene.GetNodeOrNull("UI/GameOverMenu");
 
         if (rawNode == null)
@@ -140,18 +181,19 @@ public partial class Player : CharacterBody2D
             return;
         }
 
-
         var gameOverMenu = rawNode as GameOverMenu;
 
         if (gameOverMenu != null)
         {
             gameOverMenu.ShowGameOver();
         }
-        else
-        {
-        }
     }
 
+    /// <summary>
+    /// Обробник таймера базової атаки ближнього бою (Меч).
+    /// Створює ефект удару, розраховує підсумкову шкоду та розмір зони ураження 
+    /// на основі поточного рівня поліпшення та глобального множника сили.
+    /// </summary>
     private void OnAttackTimerTimeout()
     {
         if (SlashScene == null) return;
@@ -179,6 +221,11 @@ public partial class Player : CharacterBody2D
         var slashSprite = slash.GetNode<AnimatedSprite2D>("AnimatedSprite2D");
         slashSprite.FlipH = _animatedSprite.FlipH;
     }
+
+    /// <summary>
+    /// Обробник таймера пасивної регенерації.
+    /// Перевіряє наявність поліпшення "Regen" у <see cref="GameManager"/> і лікує гравця відповідно до його рівня.
+    /// </summary>
     private void OnRegenTimerTimeout()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");
@@ -192,6 +239,10 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Динамічно зменшує затримку між атаками мечем (AttackTimer) 
+    /// на основі рівня поліпшення швидкості атаки (Жага Крові).
+    /// </summary>
     public void UpdateAttackSpeed()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");
@@ -208,6 +259,11 @@ public partial class Player : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Обробник таймера атаки луком.
+    /// Випускає віяло стріл у випадковому напрямку, де кількість стріл і їхня шкода 
+    /// залежать від рівня поліпшення "Bow" та глобального множника сили.
+    /// </summary>
     private void OnBowTimerTimeout()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");
@@ -241,6 +297,12 @@ public partial class Player : CharacterBody2D
             arrow.Damage = finalDamage;
         }
     }
+
+    /// <summary>
+    /// Обробник таймера атаки посохом води.
+    /// Стріляє пробивними снарядами на чотири сторони (або менше, залежно від рівня).
+    /// На 5-му рівні значно збільшує масштаб і зону ураження снарядів.
+    /// </summary>
     private void OnStaffTimerTimeout()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");
@@ -278,6 +340,12 @@ public partial class Player : CharacterBody2D
             projectile.Scale = new Vector2(baseScale, baseScale);
         }
     }
+
+    /// <summary>
+    /// Обробник таймера атаки вогняним посохом.
+    /// Випускає вибуховий снаряд у випадковому напрямку, радіус, час життя та шкода якого
+    /// масштабуються з підвищенням рівня поліпшення "FireStaff".
+    /// </summary>
     private void OnFireTimerTimeout()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");
@@ -304,6 +372,11 @@ public partial class Player : CharacterBody2D
         projectile.ZoneLifespan = lifespan;
         projectile.ZoneScale = new Vector2(scale, scale);
     }
+
+    /// <summary>
+    /// Оновлює стан магічної аури навколо гравця (увімкнення/вимкнення, розмір та шкоду).
+    /// Викликається глобальним менеджером при виборі відповідного поліпшення.
+    /// </summary>
     public void UpdateAuraStatus()
     {
         var gm = GetTree().Root.GetNodeOrNull<GameManager>("Main/GameManager");

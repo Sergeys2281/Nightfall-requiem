@@ -3,10 +3,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+/// <summary>
+/// Головний менеджер гри (Singleton-подібний контролер).
+/// Відповідає за глобальний ігровий стан: таймер виживання, систему досвіду та рівнів, 
+/// базу даних поліпшень (зброї та пасивних навичок), зміну складності та збереження рекордів.
+/// </summary>
 public partial class GameManager : Node
 {
+    /// <summary>Посилання на UI-елемент смуги досвіду.</summary>
     [Export] public ProgressBar ExpBar { get; set; }
+
+    /// <summary>Посилання на UI-елемент таймера виживання.</summary>
     [Export] public Label TimerLabel { get; set; }
+
+    /// <summary>Шаблон сцени меню поліпшень, яке з'являється при підвищенні рівня.</summary>
     [Export] public PackedScene UpgradeMenuScene { get; set; }
 
     public int CurrentLevel = 1;
@@ -15,6 +25,8 @@ public partial class GameManager : Node
 
     private float _timeElapsed = 0.0f;
     private int _difficultyLevel = 0;
+
+    /// <summary>Час у секундах, через який гра стає складнішою.</summary>
     private const float DifficultyStepTime = 30.0f;
 
     private const int MaxActiveSlots = 3;
@@ -22,9 +34,9 @@ public partial class GameManager : Node
 
     public List<string> ActiveSlots = new List<string> { "Sword" };
     public List<string> PassiveSlots = new List<string>();
-    public Dictionary<string, int> UpgradeLevels = new Dictionary<string, int> {  };
+    public Dictionary<string, int> UpgradeLevels = new Dictionary<string, int>();
 
-
+    /// <summary>Шлях до сцени поточного обраного рівня. За замовчуванням - пустеля.</summary>
     public static string SelectedLevelPath = "res://scenes/level_desert.tscn";
 
     public static int CurrentScore = 0;
@@ -35,6 +47,11 @@ public partial class GameManager : Node
 
     private bool _isHordeMode = false;
 
+    /// <summary>
+    /// Викликається рушієм Godot при старті ігрової сцени.
+    /// Скидає поточну статистику, очищає попередні рівні, завантажує обрану мапу,
+    /// оновлює інтерфейс та видає гравцю стартову зброю (Меч).
+    /// </summary>
     public override void _Ready()
     {
         CurrentScore = 0;
@@ -55,11 +72,8 @@ public partial class GameManager : Node
         if (levelScene != null)
         {
             var newLevel = levelScene.Instantiate();
-
             levelContainer.AddChild(newLevel);
-
             levelContainer.MoveChild(newLevel, 0);
-
             GD.Print($"Рівень {SelectedLevelPath} успішно завантажено в Main!");
         }
         else
@@ -68,14 +82,21 @@ public partial class GameManager : Node
         }
 
         UpdateUI();
-
         CallDeferred("ApplyUpgrade", "Sword");
     }
+
+    /// <summary>
+    /// Оновлює глобальний ігровий час.
+    /// </summary>
     public override void _Process(double delta)
     {
         RunTime += delta;
     }
 
+    /// <summary>
+    /// Відстежує фізичний час для оновлення таймера на екрані, підвищення рівня складності 
+    /// та активації режиму орди на 30-й хвилині виживання.
+    /// </summary>
     public override void _PhysicsProcess(double delta)
     {
         _timeElapsed += (float)delta;
@@ -100,6 +121,9 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Запускає фінальну фазу гри (Режим Орди) після 30 хвилин виживання.
+    /// </summary>
     private void TriggerHordeMode()
     {
         GD.Print("💀 30 ХВИЛИН! ПОЧИНАЄТЬСЯ НЕСКІНЧЕННА ОРДА!");
@@ -111,6 +135,9 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Структура даних, що описує характеристики поліпшення (зброї або пасивної навички).
+    /// </summary>
     public class UpgradeData
     {
         public string Id;
@@ -119,6 +146,9 @@ public partial class GameManager : Node
         public bool IsActive;
     }
 
+    /// <summary>
+    /// Глобальна база даних усіх доступних у грі поліпшень та їхніх описів.
+    /// </summary>
     public Dictionary<string, UpgradeData> UpgradeDatabase = new Dictionary<string, UpgradeData>
     {
         { "Sword", new UpgradeData { Id = "Sword", Title = "🗡️ Поліпшення Меча", Description = "Збільшує шкоду від меча.", IsActive = true } },
@@ -136,6 +166,11 @@ public partial class GameManager : Node
 
     private RandomNumberGenerator _rng = new RandomNumberGenerator();
 
+    /// <summary>
+    /// Формує пул з 3 випадкових поліпшень для вибору при підвищенні рівня гравця.
+    /// Враховує максимальний рівень поліпшень (5) та ліміт слотів для активних і пасивних навичок.
+    /// </summary>
+    /// <returns>Список з максимум трьох об'єктів <see cref="UpgradeData"/>.</returns>
     public List<UpgradeData> GetUpgradeChoices()
     {
         List<UpgradeData> pool = new List<UpgradeData>();
@@ -159,17 +194,29 @@ public partial class GameManager : Node
         return pool.OrderBy(x => _rng.Randf()).Take(3).ToList();
     }
 
+    /// <summary>
+    /// Розраховує глобальний множник фізичної шкоди на основі рівня пасивної навички "Damage".
+    /// </summary>
     public float GetStrengthMultiplier()
     {
         int level = UpgradeLevels.ContainsKey("Damage") ? UpgradeLevels["Damage"] : 0;
         return 1.0f + (level * 0.05f);
     }
 
+    /// <summary>
+    /// Повертає поточний рівень обраного поліпшення.
+    /// </summary>
+    /// <param name="id">Унікальний ідентифікатор поліпшення.</param>
     public int GetUpgradeLevel(string id)
     {
         return UpgradeLevels.ContainsKey(id) ? UpgradeLevels[id] : 0;
     }
 
+    /// <summary>
+    /// Застосовує обране поліпшення до гравця, оновлює його характеристики, 
+    /// реєструє рівень навички та оновлює інтерфейс списку поліпшень.
+    /// </summary>
+    /// <param name="id">Унікальний ідентифікатор обраного поліпшення.</param>
     public void ApplyUpgrade(string id)
     {
         var data = UpgradeDatabase[id];
@@ -187,10 +234,8 @@ public partial class GameManager : Node
         {
             if (id == "MaxHP") { player.MaxHealth += 20; player.Heal(20); }
             else if (id == "Speed") { player.Speed += 15.0f; }
-
             else if (id == "Armor") { player.Armor += 1; }
             else if (id == "Cooldown") { player.UpdateAttackSpeed(); }
-
             else if (id == "Aura" || id == "Damage") { player.UpdateAuraStatus(); }
         }
 
@@ -202,6 +247,9 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Форматує та оновлює текст таймера виживання на екрані гравця.
+    /// </summary>
     private void UpdateTimerDisplay()
     {
         if (TimerLabel == null) return;
@@ -212,6 +260,9 @@ public partial class GameManager : Node
         TimerLabel.Text = string.Format("{0:00}:{1:00}", minutes, seconds);
     }
 
+    /// <summary>
+    /// Сигналізує спавнеру ворогів про необхідність збільшити складність.
+    /// </summary>
     private void OnDifficultyIncreased()
     {
         GD.Print($"[Складність] Рівень підвищено до: {_difficultyLevel}");
@@ -223,11 +274,18 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Розраховує глобальний множник здоров'я для ворогів залежно від поточного рівня складності.
+    /// </summary>
     public float GetEnemyHpMultiplier()
     {
         return 1.0f + (_difficultyLevel * 0.05f);
     }
 
+    /// <summary>
+    /// Додає досвід до загального прогресу гравця. Якщо досягнуто ліміту, викликає підвищення рівня.
+    /// </summary>
+    /// <param name="amount">Кількість отриманого досвіду.</param>
     public void AddExperience(int amount)
     {
         CurrentExperience += amount;
@@ -238,6 +296,10 @@ public partial class GameManager : Node
         UpdateUI();
     }
 
+    /// <summary>
+    /// Обробляє процес підвищення рівня: збільшує вимоги для наступного рівня,
+    /// ставить гру на паузу та викликає меню вибору поліпшень.
+    /// </summary>
     private void LevelUp()
     {
         CurrentLevel++;
@@ -263,6 +325,9 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Синхронізує візуальну смугу досвіду (ProgressBar) з поточними значеннями.
+    /// </summary>
     private void UpdateUI()
     {
         if (ExpBar != null)
@@ -272,9 +337,11 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Зберігає найкращий рахунок (рекорд) гравця у локальний файл системи.
+    /// </summary>
     public static void SaveHighScore()
     {
-        // Відкриваємо файл для запису
         using var file = FileAccess.Open(SavePath, FileAccess.ModeFlags.Write);
         if (file != null)
         {
@@ -282,6 +349,9 @@ public partial class GameManager : Node
         }
     }
 
+    /// <summary>
+    /// Завантажує найкращий рахунок з локального файлу при старті гри.
+    /// </summary>
     public static void LoadHighScore()
     {
         if (FileAccess.FileExists(SavePath))

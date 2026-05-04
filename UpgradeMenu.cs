@@ -1,11 +1,20 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Клас, що керує графічним інтерфейсом меню поліпшень (Upgrade Menu).
+/// З'являється на екрані при отриманні гравцем нового рівня, генерує картки з варіантами поліпшень
+/// та обробляє вибір користувача.
+/// </summary>
 public partial class UpgradeMenu : Control
 {
     private GameManager _gameManager;
     private Texture2D _dummyIcon = GD.Load<Texture2D>("res://icon.svg");
 
+    /// <summary>
+    /// Словник, який пов'язує унікальний ідентифікатор поліпшення (ID) 
+    /// зі шляхом до відповідного файлу іконки в ресурсах гри.
+    /// </summary>
     private Dictionary<string, string> _iconPaths = new Dictionary<string, string>
     {
         { "Sword", "res://assets/sword_icon.png" },
@@ -21,6 +30,11 @@ public partial class UpgradeMenu : Control
         { "Cooldown", "res://assets/attackspeed_icon.png" }
     };
 
+    /// <summary>
+    /// Викликається рушієм Godot при створенні та готовності вузла меню.
+    /// Отримує випадковий список доступних поліпшень від менеджера гри, відтворює звук підвищення рівня 
+    /// та динамічно заповнює кнопки-картки інтерфейсу (іконки, назви, поточні рівні та описи).
+    /// </summary>
     public override void _Ready()
     {
         _gameManager = GetTree().Root.GetNode<GameManager>("Main/GameManager");
@@ -64,10 +78,10 @@ public partial class UpgradeMenu : Control
                 var iconRect = cardButton.GetNode<TextureRect>("VBoxContainer/IconRect");
                 iconRect.Texture = iconTexture;
 
+                // Налаштування для правильного відображення піксель-арт іконок
                 iconRect.CustomMinimumSize = new Vector2(64, 64);
                 iconRect.ExpandMode = TextureRect.ExpandModeEnum.FitHeightProportional;
                 iconRect.StretchMode = TextureRect.StretchModeEnum.KeepAspectCentered;
-
                 iconRect.TextureFilter = Control.TextureFilterEnum.Nearest;
 
                 cardButton.GetNode<Label>("VBoxContainer/LevelLabel").Text = levelText;
@@ -78,11 +92,18 @@ public partial class UpgradeMenu : Control
             }
             else
             {
+                // Приховуємо зайві картки, якщо доступних поліпшень менше ніж 3
                 cardButton.Visible = false;
             }
         }
     }
 
+    /// <summary>
+    /// Обробник події натискання на кнопку (картку) поліпшення гравцем.
+    /// Передає обране поліпшення в <see cref="GameManager"/> для його застосування, 
+    /// відновлює ігровий час (знімає з паузи) та знищує сцену меню.
+    /// </summary>
+    /// <param name="id">Унікальний ідентифікатор обраного поліпшення (наприклад, "Sword" або "MaxHP").</param>
     private void OnUpgradeSelected(string id)
     {
         _gameManager.ApplyUpgrade(id);

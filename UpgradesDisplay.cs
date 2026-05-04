@@ -1,10 +1,18 @@
 using Godot;
 using System.Collections.Generic;
 
+/// <summary>
+/// Клас для відображення списку отриманих гравцем поліпшень в інтерфейсі користувача.
+/// Управляє життєвим циклом текстових вузлів (Label) для кожного активного поліпшення.
+/// </summary>
 public partial class UpgradesDisplay : VBoxContainer
 {
     private Dictionary<string, Label> _upgradeLabels = new Dictionary<string, Label>();
 
+    /// <summary>
+    /// Викликається рушієм Godot при готовності вузла. 
+    /// Очищає контейнер від будь-яких дочірніх елементів, створених у редакторі.
+    /// </summary>
     public override void _Ready()
     {
         foreach (Node child in GetChildren())
@@ -13,6 +21,12 @@ public partial class UpgradesDisplay : VBoxContainer
         }
     }
 
+    /// <summary>
+    /// Додає нове поліпшення на екран або оновлює рівень вже існуючого.
+    /// Візуально підсвічує оновлене поліпшення зеленим кольором.
+    /// </summary>
+    /// <param name="upgradeName">Назва поліпшення, яка буде відображена в інтерфейсі.</param>
+    /// <param name="level">Поточний рівень поліпшення.</param>
     public void AddOrUpdateUpgrade(string upgradeName, int level)
     {
         if (_upgradeLabels.ContainsKey(upgradeName))

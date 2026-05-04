@@ -1,26 +1,43 @@
 using Godot;
 using System;
 
+/// <summary>
+/// Клас, що керує базовою логікою ворогів у грі.
+/// Відповідає за переслідування гравця, нанесення шкоди при фізичному зіткненні, 
+/// отримання шкоди та смерть із випаданням кристалів досвіду.
+/// </summary>
 public partial class Enemy : CharacterBody2D
 {
+    /// <summary>Швидкість пересування ворога у пікселях на секунду.</summary>
     [Export] public float Speed { get; set; } = 50.0f;
+
+    /// <summary>Базовий показник здоров'я ворога до застосування множників складності.</summary>
     [Export] public float BaseHealth { get; set; } = 20.0f;
 
+    /// <summary>Кількість шкоди, яку ворог завдає гравцю при зіткненні.</summary>
     [Export] public int Damage { get; set; } = 5;
+
+    /// <summary>Затримка (у секундах) між атаками ворога по гравцю.</summary>
     [Export] public float AttackCooldown { get; set; } = 1.0f;
 
+    /// <summary>Шаблон сцени кристала досвіду (ExpGem), який створюється після смерті ворога.</summary>
     [Export] public PackedScene GemScene { get; set; }
-
 
     public float _currentHealth;
     private float _timeSinceLastAttack = 0.0f;
     private Player _player;
     private AnimatedSprite2D _animatedSprite;
 
+    /// <summary>Кількість очок, що додаються до ігрового рахунку при вбивстві цього ворога.</summary>
     public int ScoreValue = 1;
 
     private Color _baseColor;
 
+    /// <summary>
+    /// Викликається рушієм Godot при готовності вузла.
+    /// Додає ворога до групи "Enemies", знаходить гравця на сцені, 
+    /// розраховує фінальне здоров'я на основі поточної складності у <see cref="GameManager"/> та запускає анімацію.
+    /// </summary>
     public override void _Ready()
     {
         _baseColor = Modulate;
@@ -42,6 +59,12 @@ public partial class Enemy : CharacterBody2D
         if (_animatedSprite != null) _animatedSprite.Play("walk");
     }
 
+    /// <summary>
+    /// Обробляється кожен фізичний кадр гри.
+    /// Забезпечує рух ворога в напрямку гравця, розворот спрайту залежно від вектора руху 
+    /// та обробку зіткнень для нанесення шкоди гравцю (з урахуванням часу перезарядки атаки).
+    /// </summary>
+    /// <param name="delta">Час у секундах, що минув з попереднього фізичного кадру.</param>
     public override void _PhysicsProcess(double delta)
     {
         _timeSinceLastAttack += (float)delta;
@@ -57,7 +80,6 @@ public partial class Enemy : CharacterBody2D
             }
 
             MoveAndSlide();
-
 
             for (int i = 0; i < GetSlideCollisionCount(); i++)
             {
@@ -75,7 +97,11 @@ public partial class Enemy : CharacterBody2D
         }
     }
 
-    // --- ОТРИМАННЯ ШКОДИ ---
+    /// <summary>
+    /// Завдає шкоди ворогу та активує візуальний ефект спалаху (короткочасне підсвічування білим).
+    /// Якщо здоров'я падає до нуля або нижче, викликає метод знищення об'єкта.
+    /// </summary>
+    /// <param name="damage">Кількість отриманої шкоди від атак гравця.</param>
     public void TakeDamage(int damage)
     {
         _currentHealth -= damage;
@@ -90,6 +116,10 @@ public partial class Enemy : CharacterBody2D
         }
     }
 
+    /// <summary>
+    /// Обробляє логіку смерті ворога: додає очки до загального рахунку, 
+    /// створює кристал досвіду на місці своєї загибелі та видаляє об'єкт ворога з ігрового світу.
+    /// </summary>
     private void Die()
     {
         GameManager.CurrentScore += ScoreValue;
